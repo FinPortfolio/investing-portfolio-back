@@ -1,6 +1,11 @@
 class StockEntity:
 
-    def __init__(self, stock_id: int, symbol: str, name: str):
+    def __init__(
+            self,
+            symbol: str,
+            name: str,
+            stock_id: int | None = None,
+    ):
         self.stock_id = stock_id
         self.symbol = symbol
         self.name = name
