@@ -5,7 +5,7 @@ BASE_DIR = Path(__file__).parent.parent
 
 
 class Settings(BaseSettings):
-    db_url: str = f"sqlite+aiosqlite:///{BASE_DIR}/database3.db"
+    db_url: str = f"sqlite+aiosqlite:///{BASE_DIR}/database.db"
     # db_echo: bool = False
     db_echo: bool = True
 
