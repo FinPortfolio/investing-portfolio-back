@@ -13,6 +13,7 @@ sqlalchemy = "^2.0.42"
 aiosqlite = "^0.21.0"
 pydantic-settings = "^2.10.1"
 alembic = "^1.16.4"
+gunicorn = "^23.0.0"
 
 
 [tool.poetry.group.dev.dependencies]
