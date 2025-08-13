@@ -71,7 +71,6 @@ instance/
 
 # DB:
 *.db
-database.db
 
 # Scrapy stuff:
 .scrapy

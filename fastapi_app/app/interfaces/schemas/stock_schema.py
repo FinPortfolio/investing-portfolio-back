@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pydantic import BaseModel
 
-from app.domain.entities import StockEntity
+from fastapi_app.app.domain.entities import StockEntity
 
 
 class StockBase(BaseModel):

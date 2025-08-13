@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 import uvicorn
 from fastapi import FastAPI
 
-from app.interfaces.api.v1 import router as router_v1
+from fastapi_app.app.interfaces.api.v1 import router as router_v1
 
 
 @asynccontextmanager

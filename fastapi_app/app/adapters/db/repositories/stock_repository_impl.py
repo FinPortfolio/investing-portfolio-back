@@ -3,10 +3,10 @@ from sqlalchemy import select
 from sqlalchemy.engine import Result
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.adapters.db.models import StockModel
-from app.application.exceptions import EntityNotFoundError
-from app.domain.entities import StockEntity
-from app.domain.repositories import StockRepository
+from fastapi_app.app.adapters.db.models import StockModel
+from fastapi_app.app.application.exceptions import EntityNotFoundError
+from fastapi_app.app.domain.entities import StockEntity
+from fastapi_app.app.domain.repositories import StockRepository
 
 
 class SQLAlchemyStockRepository(StockRepository):

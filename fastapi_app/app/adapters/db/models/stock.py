@@ -1,8 +1,8 @@
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column
 
-from app.adapters.db.models import Base
-from app.domain.entities import StockEntity
+from fastapi_app.app.adapters.db.models import Base
+from fastapi_app.app.domain.entities import StockEntity
 
 
 class StockModel(Base):
