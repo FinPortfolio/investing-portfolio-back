@@ -1,4 +1,25 @@
+.git
+.gitignore
 .idea/
+.vscode/
+
 .venv/
+venv/
+
+.env
+*.env
+
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
 
 *.db
+*.sqlite3
+
+*.log
+
+Dockerfile.*
+docker-compose*.yml
+
+.cache/
