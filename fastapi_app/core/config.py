@@ -10,8 +10,14 @@ class RunConfig(BaseModel):
     port: int = 8000
 
 
+class ApiV1Prefix(BaseModel):
+    prefix: str = "/v1"
+    stocks: str = "/stocks"
+
+
 class ApiPrefix(BaseModel):
     prefix: str = "/api"
+    v1: ApiV1Prefix = ApiV1Prefix()
 
 
 class DatabaseConfig(BaseModel):
@@ -40,13 +46,8 @@ class Settings(BaseSettings):
 
     run: RunConfig = RunConfig()
     api: ApiPrefix = ApiPrefix()
-    # for PostgreSQL:
     db: DatabaseConfig
-    # # for SQLite:
-    # db_url: str = f"sqlite+aiosqlite:///{BASE_DIR}/database.db"
-    # # db_echo: bool = False
-    # db_echo: bool = True
 
 
 settings = Settings()
-print("DB URL : ", settings.db.url)
+
