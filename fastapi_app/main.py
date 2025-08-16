@@ -5,11 +5,15 @@ from fastapi import FastAPI
 
 from fastapi_app.app.interfaces.api.v1 import router as router_v1
 from fastapi_app.core.config import settings
+from app.adapters.db import pg_db_manager
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    # startup
     yield
+    # shutdown
+    pg_db_manager.engine.dispose()
 
 
 app = FastAPI(
