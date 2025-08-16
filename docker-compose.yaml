@@ -6,9 +6,9 @@ services:
   pg:
     image: postgres:17.5
     environment:
-      POSTGRES_DB: stock
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
 #    volumes:
@@ -19,11 +19,18 @@ services:
       timeout: 3s
       retries: 3
 
-  adminer:
-    image: adminer
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_CONFIG_SERVER_MODE: "False"
     ports:
-      - "5055:8080"
-#
+      - "5050:80"
+    depends_on:
+      pg:
+        condition: service_healthy
+
 #  back:
 #    build:
 #      dockerfile: ./Dockerfile
@@ -43,20 +50,3 @@ services:
 ##          target: /app
 ##        - action: rebuild
 ##          path: ./poetry.lock
-#
-##  adminer:
-##    image: adminer
-##    ports:
-##      - "5055:80"
-#
-#  pgadmin:
-#    image: dpage/pgadmin4
-#    environment:
-#      PGADMIN_DEFAULT_EMAIL: user@domain.com
-#      PGADMIN_DEFAULT_PASSWORD: secretpassword
-#      PGADMIN_CONFIG_SERVER_MODE: "False"
-#    ports:
-#      - "5050:80"
-#    depends_on:
-#      pg:
-#        condition: service_healthy
