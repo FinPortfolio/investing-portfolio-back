@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from fastapi_app.app.domain.entities import StockEntity
+from app.domain.entities import StockEntity
 
 
 class StockRepository(ABC):

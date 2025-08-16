@@ -1,14 +1,15 @@
 # app/adapters/api/v1/stock_routes.py
 from fastapi import APIRouter, HTTPException, Response, status
 
-from fastapi_app.app.application.exceptions import StockNotFoundError
-from fastapi_app.app.interfaces.schemas import (
+from app.application.exceptions import StockNotFoundError
+from app.interfaces.schemas import (
     StockCreate,
     StockPublic,
     StockFullUpdate,
     StockPartialUpdate,
 )
-from fastapi_app.app.adapters.deps import StockServiceDep
+from app.adapters.deps import StockServiceDep
+
 
 router = APIRouter(
     tags=["Stocks"],

@@ -1,7 +1,7 @@
 # app/application/services/stock_service.py
-from fastapi_app.app.application.exceptions import EntityNotFoundError, StockNotFoundError
-from fastapi_app.app.domain.entities import StockEntity
-from fastapi_app.app.domain.repositories import StockRepository
+from app.application.exceptions import EntityNotFoundError, StockNotFoundError
+from app.domain.entities import StockEntity
+from app.domain.repositories import StockRepository
 
 
 class StockService:
