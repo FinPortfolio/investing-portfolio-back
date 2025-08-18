@@ -1,5 +1,8 @@
 # Investing Portfolio Backend
 
+Create .env.deploy and .env.app files in the sources root
+
+
 Backend service for managing an investment portfolio.
 
 Links:

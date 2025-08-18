@@ -1,8 +1,19 @@
+# core/config.py
+import logging
 from pathlib import Path
+
 from pydantic import BaseModel, PostgresDsn
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 BASE_DIR = Path(__file__).parent.parent
+
+
+ENV_FILES = (
+    BASE_DIR / ".env.app.template",
+    BASE_DIR / ".env.app",
+)
+
+EXISTING_ENV_FILES = (f for f in ENV_FILES if f.exists())
 
 
 class RunConfig(BaseModel):
@@ -38,7 +49,7 @@ class DatabaseConfig(BaseModel):
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_file=(".env.template", ".env"),
+        env_file=EXISTING_ENV_FILES,
         case_sensitive=False,
         env_nested_delimiter="__",
         env_prefix="APP_CONFIG__",
@@ -50,4 +61,15 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
+
+
+# логгер
+logger = logging.getLogger("uvicorn.error")
+if EXISTING_ENV_FILES:
+    logger.info(
+        f"The following variables have been loaded: DB_URL: {settings.db.url}, "
+        f"DB_ECHO: {settings.db.echo}, DB_ECHO_POOL: {settings.db.echo_pool}."
+    )
+else:
+    logger.warning("No .env file found. Using defaults or environment variables.")
 

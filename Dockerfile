@@ -13,11 +13,10 @@ COPY poetry.lock pyproject.toml ./
 
 RUN poetry install --only main --no-interaction --no-ansi
 
-COPY fastapi_app fastapi_app
+COPY fastapi_app .
 
-RUN chmod +x fastapi_app/prestart.sh
+RUN chmod +x prestart.sh
 
-ENTRYPOINT ["fastapi_app/prestart.sh"]
+ENTRYPOINT ["./prestart.sh"]
 
-CMD ["gunicorn", "fastapi_app.main:app", "-k", "uvicorn.workers.UvicornWorker", "-w", "4", "--bind", "0.0.0.0:8000"]
-
+CMD ["gunicorn", "main:main_app", "-k", "uvicorn.workers.UvicornWorker", "-w", "4", "--bind", "0.0.0.0:8000"]
