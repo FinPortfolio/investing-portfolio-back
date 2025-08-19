@@ -45,10 +45,10 @@ services:
 ##    command:
 ##      - python
 ##      - run_main.py
-##    develop:
-##      watch:
-##        - action: sync+restart
-##          path: ./fastapi-application
-##          target: /app
-##        - action: rebuild
-##          path: ./poetry.lock
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./fastapi_app
+          target: /app
+        - action: rebuild
+          path: ./poetry.lock
