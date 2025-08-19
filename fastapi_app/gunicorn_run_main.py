@@ -16,6 +16,7 @@ def main():
             host=settings.gunicorn.host,
             port=settings.gunicorn.port,
             timeout=settings.gunicorn.timeout,
+            log_level=settings.logging.log_level,
         )
     )
     return gunicorn_app.run()

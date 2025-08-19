@@ -6,15 +6,15 @@ def get_app_options(
     host: str,
     port: int,
     timeout: int,
-    # log_level: str,
+    log_level: str,
 ) -> dict:
     return {
         "worker_class": "uvicorn.workers.UvicornWorker",
         "workers": workers,
         "bind": f"{host}:{port}",
         "timeout": timeout,
-        # "accesslog": "-",
-        # "errorlog": "-",
-        # "loglevel": log_level,
-        # "logger_class": GunicornLogger,
+        "accesslog": "-",
+        "errorlog": "-",
+        "loglevel": log_level,
+        "logger_class": GunicornLogger,
     }

@@ -1,7 +1,6 @@
 # core/config.py
 from typing import Literal
 
-import logging
 from pathlib import Path
 
 from pydantic import BaseModel, PostgresDsn
@@ -34,12 +33,12 @@ class GunicornConfig(BaseModel):
 
 class LoggingConfig(BaseModel):
     log_level: Literal[
-        'debug',
-        'info',
-        'warning',
-        'error',
-        'critical',
-    ] = 'info'
+        "debug",
+        "info",
+        "warning",
+        "error",
+        "critical",
+    ] = "info"
     log_format: str = LOG_DEFAULT_FORMAT
 
 
@@ -79,19 +78,9 @@ class Settings(BaseSettings):
 
     run: RunConfig = RunConfig()
     gunicorn: GunicornConfig = GunicornConfig()
+    logging: LoggingConfig = LoggingConfig()
     api: ApiPrefix = ApiPrefix()
     db: DatabaseConfig
 
 
 settings = Settings()
-
-
-# логгер
-logger = logging.getLogger("uvicorn.error")
-if EXISTING_ENV_FILES:
-    logger.info(
-        f"The following variables have been loaded: DB_URL: {settings.db.url}, "
-        f"DB_ECHO: {settings.db.echo}, DB_ECHO_POOL: {settings.db.echo_pool}."
-    )
-else:
-    logger.warning("No .env file found. Using defaults or environment variables.")

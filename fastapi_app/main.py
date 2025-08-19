@@ -29,7 +29,7 @@ main_app.include_router(
 
 @main_app.get("/")
 async def read_stocks():
-    return {"message": "Everything is OK"}
+    return {"message": "Everything is OK!!!"}
 
 
 if __name__ == "__main__":
