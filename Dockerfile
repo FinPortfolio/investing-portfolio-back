@@ -17,6 +17,8 @@ COPY fastapi_app .
 
 RUN chmod +x prestart.sh
 
+RUN chmod +x run
+
 ENTRYPOINT ["./prestart.sh"]
 
-CMD ["gunicorn", "main:main_app", "-k", "uvicorn.workers.UvicornWorker", "-w", "4", "--bind", "0.0.0.0:8000"]
+CMD ["./run"]

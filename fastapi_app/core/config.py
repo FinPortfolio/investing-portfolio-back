@@ -1,9 +1,13 @@
 # core/config.py
+from typing import Literal
+
 import logging
 from pathlib import Path
 
 from pydantic import BaseModel, PostgresDsn
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+LOG_DEFAULT_FORMAT = "[%(asctime)s.%(msecs)03d] %(module)10s:%(lineno)-3d %(levelname)-7s - %(message)s"
 
 BASE_DIR = Path(__file__).parent.parent
 
@@ -19,6 +23,24 @@ EXISTING_ENV_FILES = (f for f in ENV_FILES if f.exists())
 class RunConfig(BaseModel):
     host: str = "0.0.0.0"
     port: int = 8000
+
+
+class GunicornConfig(BaseModel):
+    host: str = "0.0.0.0"
+    port: int = 8000
+    workers: int = 1
+    timeout: int = 900
+
+
+class LoggingConfig(BaseModel):
+    log_level: Literal[
+        'debug',
+        'info',
+        'warning',
+        'error',
+        'critical',
+    ] = 'info'
+    log_format: str = LOG_DEFAULT_FORMAT
 
 
 class ApiV1Prefix(BaseModel):
@@ -56,6 +78,7 @@ class Settings(BaseSettings):
     )
 
     run: RunConfig = RunConfig()
+    gunicorn: GunicornConfig = GunicornConfig()
     api: ApiPrefix = ApiPrefix()
     db: DatabaseConfig
 
@@ -72,4 +95,3 @@ if EXISTING_ENV_FILES:
     )
 else:
     logger.warning("No .env file found. Using defaults or environment variables.")
-
