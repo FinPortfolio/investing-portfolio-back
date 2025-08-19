@@ -1,0 +1,53 @@
+name: Main Portfolio workflow
+
+on:
+  push:
+    branches:
+      - main
+      - releases
+
+jobs:
+  #  tests:
+
+  checkout-and-print-tree:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Print project tree
+        run: tree .
+
+#  build_backend_and_push_to_docker_hub:
+#    name: Push backend Docker image to DockerHub
+#    runs-on: ubuntu-latest
+##    needs: tests
+#    steps:
+#      - name: Check out the repo
+#        uses: actions/checkout@v3
+#      - name: Set up Docker Buildx
+#        uses: docker/setup-buildx-action@v2
+#      - name: Login to Docker
+#        uses: docker/login-action@v2
+#        with:
+#          username: ${{ secrets.DOCKER_USERNAME }}
+#          password: ${{ secrets.DOCKER_PASSWORD }}
+##      - name: Push to DockerHub
+##        uses: docker/build-push-action@v4
+##        with:
+##          context: ./backend/
+##          push: true
+##          tags: akatosphere/doct24_backend:latest
+#      - name: Push Backend to DockerHub (prod)
+#        if: github.ref == 'refs/heads/main'
+#        uses: docker/build-push-action@v4
+#        with:
+#          context: ./backend/
+#          push: true
+#          tags: akatosphere/doct24_backend_prod:latest
+#      - name: Push Backend to DockerHub (test)
+#        if: github.ref == 'refs/heads/releases'
+#        uses: docker/build-push-action@v4
+#        with:
+#          context: ./backend/
+#          push: true
+#          tags: akatosphere/doct24_backend_test:latest

@@ -10,6 +10,7 @@ from app.interfaces.schemas import (
 )
 from app.adapters.deps import StockServiceDep
 
+
 router = APIRouter(
     tags=["Stocks"],
 )
