@@ -106,9 +106,9 @@ jobs:
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
             cd portfolio_test
-            sudo docker compose -f docker-compose.test.yaml pull
-            sudo docker compose -f docker-compose.test.yaml down
-            sudo docker compose -f docker-compose.test.yaml up -d
+            sudo docker-compose -f docker-compose.test.yaml pull
+            sudo docker-compose -f docker-compose.test.yaml down
+            sudo docker-compose -f docker-compose.test.yaml up -d
 #            sudo docker compose -f docker-compose.production.yml exec backend python manage.py migrate
 #            sudo docker compose -f docker-compose.production.yml exec backend python manage.py collectstatic
 #            sudo docker compose -f docker-compose.production.yml exec backend cp -r /app/collected_static/. /backend_static/static/
