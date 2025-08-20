@@ -35,14 +35,22 @@ services:
     networks:
       - portfolio_test
 
-  back:
-    image: ezhik415/portfolio_backend
+  backend:
+    image: ezhik415/portfolio_backend_test
     env_file:
       - .env.app
-    ports:
-      - "9000:8000"
     depends_on:
       pg:
         condition: service_healthy
+    networks:
+      - portfolio_test
+
+  nginx_internal:
+    image: ezhik415/portfolio_nginx_test
+    ports:
+      - "9000:80"
+    depends_on:
+      - backend
+    restart: always
     networks:
       - portfolio_test
