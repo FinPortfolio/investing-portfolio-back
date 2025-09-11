@@ -1,0 +1,56 @@
+volumes:
+  pg_data:
+
+networks:
+  portfolio_test:
+    driver: bridge
+
+services:
+
+  pg:
+    image: postgres:17.5
+    env_file:
+      - .env.deploy
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+    networks:
+      - portfolio_test
+
+  pgadmin:
+    image: dpage/pgadmin4
+    env_file:
+      - .env.deploy
+    environment:
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    ports:
+      - "5050:80"
+    depends_on:
+      pg:
+        condition: service_healthy
+    networks:
+      - portfolio_test
+
+  backend:
+    image: ezhik415/portfolio_backend_test
+    env_file:
+      - .env.app
+    depends_on:
+      pg:
+        condition: service_healthy
+    networks:
+      - portfolio_test
+
+  nginx_internal:
+    image: ezhik415/portfolio_nginx_test
+    ports:
+      - "9000:80"
+    depends_on:
+      - backend
+    restart: always
+    networks:
+      - portfolio_test

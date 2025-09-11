@@ -1,0 +1,3 @@
+APP_CONFIG__DB__URL=postgresql+asyncpg://herrshneider:Boris14@pg:5432/portfolio
+APP_CONFIG__DB__ECHO=True
+APP_CONFIG__DB__ECHO_POOL=True
