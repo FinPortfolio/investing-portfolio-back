@@ -20,6 +20,7 @@ asyncpg = "^0.30.0"
 [tool.poetry.group.dev.dependencies]
 uvicorn = {extras = ["standard"], version = "^0.35.0"}
 black = "^25.1.0"
+pytest = "^8.4.2"
 
 [build-system]
 requires = ["poetry-core"]
