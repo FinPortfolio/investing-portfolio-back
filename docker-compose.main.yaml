@@ -2,7 +2,7 @@ volumes:
   pg_data:
 
 networks:
-  portfolio_test:
+  portfolio_main:
     driver: bridge
 
 services:
@@ -19,7 +19,7 @@ services:
       timeout: 3s
       retries: 3
     networks:
-      - portfolio_test
+      - portfolio_main
 
   pgadmin:
     image: dpage/pgadmin4
@@ -33,24 +33,24 @@ services:
       pg:
         condition: service_healthy
     networks:
-      - portfolio_test
+      - portfolio_main
 
   backend:
-    image: ezhik415/portfolio_backend_test
+    image: ezhik415/portfolio_backend_main
     env_file:
       - .env.app
     depends_on:
       pg:
         condition: service_healthy
     networks:
-      - portfolio_test
+      - portfolio_main
 
   nginx_internal:
-    image: ezhik415/portfolio_nginx_test
+    image: ezhik415/portfolio_nginx_main
     ports:
       - "9000:80"
     depends_on:
       - backend
     restart: always
     networks:
-      - portfolio_test
+      - portfolio_main
