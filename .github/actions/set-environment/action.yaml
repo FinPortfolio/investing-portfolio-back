@@ -1,0 +1,30 @@
+name: "Set Environment"
+description: "Determine the deployment environment for push events"
+
+outputs:
+  environment:
+    description: 'Environment to deploy to'
+    value: ${{ steps.environment.outputs.environment }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set Environment
+      id: environment
+      run: |
+        BRANCH_NAME=${{ github.ref }}
+        BRANCH_NAME=${BRANCH_NAME#refs/heads/}
+
+        case "$BRANCH_NAME" in
+          "main")
+            echo "environment=main" >> $GITHUB_OUTPUT
+            ;;
+          "releases")
+            echo "environment=releases" >> $GITHUB_OUTPUT
+            ;;
+          *)
+            echo "Unknown branch: $BRANCH_NAME"
+            exit 1
+            ;;
+        esac
+      shell: bash
