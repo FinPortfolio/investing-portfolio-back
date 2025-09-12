@@ -13,7 +13,7 @@ async def lifespan(app: FastAPI):
     # startup
     yield
     # shutdown
-    pg_db_manager.engine.dispose()
+    await pg_db_manager.dispose()
 
 
 main_app = FastAPI(
