@@ -27,6 +27,3 @@ wheel = "^0.45.1"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-
-[tool.poetry.scripts]
-tests = "bash -c 'docker compose -f docker-compose.test.yaml up --build --abort-on-container-exit --exit-code-from backend_test'"

@@ -6,8 +6,6 @@ services:
 
   pg_test:
     image: postgres:17.5
-#    env_file:
-#      - .env.deploy
     environment:
       POSTGRES_DB: portfolio_test_db
       POSTGRES_USER: test_user
