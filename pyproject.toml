@@ -21,6 +21,8 @@ asyncpg = "^0.30.0"
 uvicorn = {extras = ["standard"], version = "^0.35.0"}
 black = "^25.1.0"
 pytest = "^8.4.2"
+setuptools = "^80.9.0"
+wheel = "^0.45.1"
 
 [build-system]
 requires = ["poetry-core"]
