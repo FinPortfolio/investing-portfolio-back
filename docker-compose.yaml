@@ -2,7 +2,7 @@ volumes:
   pg_data:
 
 networks:
-  portfolio_test:
+  portfolio_dev:
     driver: bridge
 
 services:
@@ -19,7 +19,7 @@ services:
       timeout: 3s
       retries: 3
     networks:
-      - portfolio_test
+      - portfolio_dev
 
   pgadmin:
     image: dpage/pgadmin4
@@ -33,7 +33,7 @@ services:
       pg:
         condition: service_healthy
     networks:
-      - portfolio_test
+      - portfolio_dev
 
   backend:
     build:
@@ -52,7 +52,7 @@ services:
         - action: rebuild
           path: ./poetry.lock
     networks:
-      - portfolio_test
+      - portfolio_dev
 
   nginx_internal:
     build:
@@ -64,4 +64,4 @@ services:
       - backend
     restart: always
     networks:
-      - portfolio_test
+      - portfolio_dev
