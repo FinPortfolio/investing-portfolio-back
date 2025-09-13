@@ -27,6 +27,3 @@ wheel = "^0.45.1"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-
-[tool.poetry.scripts]
-test = "scripts.test:main"
