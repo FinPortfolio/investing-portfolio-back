@@ -1,0 +1,58 @@
+volumes:
+  pg_test_data:
+
+networks:
+  portfolio_test:
+    driver: bridge
+
+services:
+
+  pg_test:
+    image: postgres:17.5
+#    env_file:
+#      - .env.deploy
+    environment:
+      POSTGRES_DB: portfolio_test
+      POSTGRES_USER: test_user
+      POSTGRES_PASSWORD: test_password
+    volumes:
+      - pg_test_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U test_user -d test_db" ]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+    networks:
+      - portfolio_test
+#  test_db:
+#    image: postgres:16
+#    container_name: postgres_test
+#    environment:
+#      POSTGRES_DB: test_db
+#      POSTGRES_USER: test_user
+#      POSTGRES_PASSWORD: test_password
+#    healthcheck:
+#      test: [ "CMD-SHELL", "pg_isready -U test_user -d test_db" ]
+#      interval: 5s
+#      retries: 5
+
+  backend_test:
+    build:
+      dockerfile: Dockerfile.test
+      context: ./
+#    env_file:
+#      - ./fastapi_app/.env.app
+    environment:
+      APP_CONFIG__DB__URL: postgresql+asyncpg://test_user:test_password@pg_test:5432/portfolio_test
+    depends_on:
+      pg_test:
+        condition: service_healthy
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./fastapi_app
+          target: /app
+        - action: rebuild
+          path: ./poetry.lock
+    networks:
+      - portfolio_test
