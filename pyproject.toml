@@ -29,4 +29,4 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-test = "scripts.test:main"
+tests = "bash -c 'docker compose -f docker-compose.test.yaml up --build --abort-on-container-exit --exit-code-from backend_test'"
