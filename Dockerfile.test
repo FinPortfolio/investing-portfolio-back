@@ -16,10 +16,6 @@ RUN poetry install --with dev --no-interaction --no-ansi
 COPY fastapi_app .
 COPY tests ./tests
 
-RUN chmod +x prestart.sh
-
 RUN chmod +x run
-
-ENTRYPOINT ["./prestart.sh"]
 
 CMD ["./run"]

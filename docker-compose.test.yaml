@@ -31,4 +31,4 @@ services:
         condition: service_healthy
     networks:
       - portfolio_test
-    command: pytest --maxfail=5 -v
+    command: pytest -s --maxfail=5 -v
