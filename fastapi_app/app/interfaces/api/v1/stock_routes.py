@@ -1,4 +1,4 @@
-# app/adapters/api/v1/stock_routes.py
+# app/interfaces/api/v1/stock_routes.py
 from fastapi import APIRouter, HTTPException, Response, status
 
 from app.application.exceptions import StockNotFoundError
