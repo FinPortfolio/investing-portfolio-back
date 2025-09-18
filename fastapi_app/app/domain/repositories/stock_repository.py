@@ -1,3 +1,4 @@
+# app/domain/repositories/stock_repository.py
 from abc import ABC, abstractmethod
 
 from app.domain.entities import StockEntity

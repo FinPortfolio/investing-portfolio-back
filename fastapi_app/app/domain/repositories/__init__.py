@@ -1,5 +1,7 @@
 __all__ = (
-    "StockRepository"
+    "StockRepository",
+    "StockTranRepository",
 )
 
 from .stock_repository import StockRepository
+from .stock_tran_repository import StockTranRepository

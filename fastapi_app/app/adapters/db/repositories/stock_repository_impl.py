@@ -1,4 +1,4 @@
-# adapters/db/stock_repository_impl.py
+# app/adapters/db/stock_repository_impl.py
 from sqlalchemy import select
 from sqlalchemy.engine import Result
 from sqlalchemy.ext.asyncio import AsyncSession

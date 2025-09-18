@@ -16,3 +16,11 @@ async def get_stock_service(session: SessionDep) -> StockService:
 
 
 StockServiceDep = Annotated[StockService, Depends(get_stock_service)]
+
+
+async def get_stock_transaction_service(session: SessionDep) -> StockTranService:
+    repo = SQLAlchemyStockTranRepository(session)
+    return StockTranService(repo)
+
+
+StockTranServiceDep = Annotated[StockTranService, Depends(get_stock_transaction_service)]
