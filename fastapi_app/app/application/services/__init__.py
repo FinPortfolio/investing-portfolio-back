@@ -1,5 +1,7 @@
 __all__ = (
-    "StockService"
+    "StockService",
+    "StockTranService",
 )
 
 from .stock_service import StockService
+from .stock_tran_service import StockTranService
