@@ -13,6 +13,8 @@ services:
       - .env.deploy
     volumes:
       - pg_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432" # <— проброс наружу, чтобы alembic мог достучаться и создать миграции
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready" ]
       interval: 5s
@@ -41,6 +43,8 @@ services:
       context: ./
     env_file:
       - ./fastapi_app/.env.app
+    ports:
+      - "8000:8000"
     depends_on:
       pg:
         condition: service_healthy
