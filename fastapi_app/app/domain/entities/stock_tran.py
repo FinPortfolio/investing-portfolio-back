@@ -1,17 +1,39 @@
+from datetime import date
+from enum import StrEnum
+
+
+class AssetType(StrEnum):
+    STOCK = "stock"
+    ETF = "etf"
+    BOND = "bond"
+    CRYPTO = "crypto"
+
+
+class TransactionCurrency(StrEnum):
+    USD = "USD"
+    EUR = "EUR"
+    RUB = "RUB"
+
+
+class TransactionType(StrEnum):
+    BUY = "buy"
+    SELL = "sell"
+
+
 class StockTranEntity:
 
     def __init__(
             self,
-            asset_type = str,
-            # symbol_id = str,  # Foreign Key for table "Stocks"
-            initial_price = float,
-            # provider = dict,  # Nested object or not?
-            transaction_commission = float,
-            transaction_currency = str,
-            transaction_date = str,
-            transaction_quantity = float,
-            transaction_type = str,
-            notes = str,
+            asset_type: AssetType,
+            # symbol_id: str,  # Foreign Key for table "Stocks"
+            initial_price: float,
+            # provider: dict,  # Nested object or not?
+            transaction_commission: float,
+            transaction_currency: TransactionCurrency,
+            transaction_date: date,
+            transaction_quantity: float,
+            transaction_type: TransactionType,
+            notes: str,
             stock_tran_id: int | None = None,
     ):
         self.stock_tran_id = stock_tran_id

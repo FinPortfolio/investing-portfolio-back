@@ -1,19 +1,21 @@
 # app.interfaces.schemas.stock_tran_schema.py
 from __future__ import annotations
 
+from datetime import date
+
 from pydantic import BaseModel
 
-from app.domain.entities import StockTranEntity
+from app.domain.entities import AssetType, StockTranEntity, TransactionCurrency, TransactionType
 
 
 class StockTranBase(BaseModel):
-    asset_type: str
+    asset_type: AssetType
     initial_price: float
     transaction_commission: float
-    transaction_currency: str
-    transaction_date: str
+    transaction_currency: TransactionCurrency
+    transaction_date: date
     transaction_quantity: float
-    transaction_type: str
+    transaction_type: TransactionType
     notes: str
 
 
