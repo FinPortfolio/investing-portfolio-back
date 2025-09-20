@@ -33,3 +33,7 @@ class StockTranPublic(StockTranBase):
             transaction_type=entity.transaction_type,
             notes=entity.notes,
         )
+
+
+class StockTranCreate(StockTranBase):
+    pass

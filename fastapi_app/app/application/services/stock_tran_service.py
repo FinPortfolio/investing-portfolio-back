@@ -16,11 +16,10 @@ class StockTranService:
         list_of_stocks = await self.repo.get_list_of_stock_transactions()
         return list_of_stocks
 
-    # # async def add_stock(self, stock: StockEntity):
-    # async def add_stock(self, stock: dict) -> StockEntity:
-    #     db_stock_entity = await self.repo.create_stock(stock)
-    #     return db_stock_entity
-    #
+    async def add_stock_tran(self, stock_tran: dict) -> StockTranEntity:
+        db_stock_tran_entity = await self.repo.create_stock_transaction(stock_tran)
+        return db_stock_tran_entity
+
     async def get_stock(self, stock_tran_id: int) -> StockTranEntity:
         try:
             db_stock_tran_entity = await self.repo.get_stock_tran_by_id(stock_tran_id)

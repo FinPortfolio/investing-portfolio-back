@@ -24,7 +24,12 @@ class SQLAStockTranRepository(StockTranRepository):
         result: Result = await self.session.execute(statement)
         db_stock_trans = result.scalars().all()
         return [db_stock_tran.to_entity() for db_stock_tran in db_stock_trans]
-    # async def create_stock(self, stock_tran: dict) -> StockTranEntity: ...
+
+    async def create_stock_transaction(self, stock_tran: dict) -> StockTranEntity:
+        db_stock_tran = StockTranModel(**stock_tran)
+        self.session.add(db_stock_tran)
+        await self.session.commit()
+        return db_stock_tran.to_entity()
 
     async def get_stock_tran_by_id(self, stock_tran_id: int) -> StockTranEntity:
         db_stock_tran = await self._get_db_stock_tran_or_404(stock_tran_id)
