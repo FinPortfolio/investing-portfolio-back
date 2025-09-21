@@ -46,7 +46,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: ./
-          dockerfile: infra/Dockerfile
+          file: infra/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/portfolio_backend_${{ env.DEPLOY_TAG }}:latest
 
