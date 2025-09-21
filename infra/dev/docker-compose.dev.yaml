@@ -1,0 +1,75 @@
+volumes:
+  pg_data:
+
+networks:
+  portfolio_dev:
+    driver: bridge
+
+services:
+
+  pg:
+    image: postgres:17.5
+    environment:
+      POSTGRES_DB: portfolio
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+    networks:
+      - portfolio_dev
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user
+      PGADMIN_DEFAULT_PASSWORD: password
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    ports:
+      - "5050:80"
+    depends_on:
+      pg:
+        condition: service_healthy
+    networks:
+      - portfolio_dev
+
+  backend:
+    build:
+      dockerfile: infra/Dockerfile
+      context: ../../
+    environment:
+      APP_CONFIG__DB__URL: postgresql+asyncpg://user:password@pg:5432/portfolio
+      APP_CONFIG__DB__ECHO: True
+      APP_CONFIG__DB__ECHO_POOL: True
+    ports:
+      - "8000:8000"
+    depends_on:
+      pg:
+        condition: service_healthy
+#    develop:
+#      watch:
+#        - action: sync+restart
+#          path: ../../fastapi_app
+#          target: /app
+#        - action: rebuild
+#          path: ../../poetry.lock
+    networks:
+      - portfolio_dev
+
+#  nginx_internal:
+#    build:
+#      dockerfile: ./nginx/Dockerfile
+#      context: ./nginx
+#    ports:
+#      - "9000:80"
+#    depends_on:
+#      - backend
+#    restart: always
+#    networks:
+#      - portfolio_dev

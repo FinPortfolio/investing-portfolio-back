@@ -2,7 +2,7 @@ volumes:
   pg_data:
 
 networks:
-  portfolio_dev:
+  portfolio_main:
     driver: bridge
 
 services:
@@ -13,15 +13,13 @@ services:
       - .env.deploy
     volumes:
       - pg_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432" # <— проброс наружу, чтобы alembic мог достучаться и создать миграции
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready" ]
       interval: 5s
       timeout: 3s
       retries: 3
     networks:
-      - portfolio_dev
+      - portfolio_main
 
   pgadmin:
     image: dpage/pgadmin4
@@ -35,37 +33,24 @@ services:
       pg:
         condition: service_healthy
     networks:
-      - portfolio_dev
+      - portfolio_main
 
   backend:
-    build:
-      dockerfile: ./Dockerfile
-      context: ./
+    image: ezhik415/portfolio_backend_main
     env_file:
-      - ./fastapi_app/.env.app
-    ports:
-      - "8000:8000"
+      - .env.app
     depends_on:
       pg:
         condition: service_healthy
-    develop:
-      watch:
-        - action: sync+restart
-          path: ./fastapi_app
-          target: /app
-        - action: rebuild
-          path: ./poetry.lock
     networks:
-      - portfolio_dev
+      - portfolio_main
 
   nginx_internal:
-    build:
-      dockerfile: ./nginx/Dockerfile
-      context: ./nginx
+    image: ezhik415/portfolio_nginx_main
     ports:
       - "9000:80"
     depends_on:
       - backend
     restart: always
     networks:
-      - portfolio_dev
+      - portfolio_main

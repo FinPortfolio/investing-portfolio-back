@@ -46,6 +46,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: ./
+          dockerfile: infra/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/portfolio_backend_${{ env.DEPLOY_TAG }}:latest
 
@@ -95,7 +96,7 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          source: "docker-compose.${{ env.DEPLOY_TAG }}.yaml"
+          source: "infra/${{ env.DEPLOY_TAG }}/docker-compose.${{ env.DEPLOY_TAG }}.yaml"
           target: "portfolio_${{ env.DEPLOY_TAG }}"
 
       - name: Executing remote ssh commands to deploy
@@ -106,10 +107,8 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
+            set -euo pipefail
             cd portfolio_${{ env.DEPLOY_TAG }}
             sudo docker-compose -f docker-compose.${{ env.DEPLOY_TAG }}.yaml pull
             sudo docker-compose -f docker-compose.${{ env.DEPLOY_TAG }}.yaml down
             sudo docker-compose -f docker-compose.${{ env.DEPLOY_TAG }}.yaml up -d
-#            sudo docker compose -f docker-compose.production.yml exec backend python manage.py migrate
-#            sudo docker compose -f docker-compose.production.yml exec backend python manage.py collectstatic
-#            sudo docker compose -f docker-compose.production.yml exec backend cp -r /app/collected_static/. /backend_static/static/
