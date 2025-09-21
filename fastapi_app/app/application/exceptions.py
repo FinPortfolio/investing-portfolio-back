@@ -4,3 +4,7 @@ class EntityNotFoundError(Exception):
 
 class StockNotFoundError(Exception):
     pass
+
+
+class StockTranNotFoundError(Exception):
+    pass

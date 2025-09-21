@@ -45,6 +45,7 @@ class LoggingConfig(BaseModel):
 class ApiV1Prefix(BaseModel):
     prefix: str = "/v1"
     stocks: str = "/stocks"
+    stock_transactions: str = "/stock_transactions"
 
 
 class ApiPrefix(BaseModel):
