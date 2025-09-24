@@ -1,11 +1,15 @@
 # app/adapters/db/models/stock_tran.py
 from datetime import date
+from typing import TYPE_CHECKING
 
-from sqlalchemy import Date, Enum, String
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import Date, Enum, ForeignKey, String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.adapters.db.models import Base
 from app.domain.entities import AssetType, StockTranEntity, TransactionCurrency, TransactionType
+
+if TYPE_CHECKING:
+    from app.adapters.db.models import StockModel
 
 
 class StockTranModel(Base):
@@ -20,6 +24,8 @@ class StockTranModel(Base):
         ),
         nullable=False
     )
+    symbol_id: Mapped[str] = mapped_column(ForeignKey("stocks.symbol"))
+    symbol: Mapped["StockModel"] = relationship(back_populates="stock_transactions")
     initial_price: Mapped[float] = mapped_column(nullable=False)
     transaction_commission: Mapped[float] = mapped_column(nullable=False)
     transaction_currency: Mapped[TransactionCurrency] = mapped_column(
