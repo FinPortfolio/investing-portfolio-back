@@ -1,5 +1,13 @@
+from dataclasses import dataclass
 
 
+@dataclass(frozen=True)
+class UrlConstants:
+
+    STOCK_TRANS_ENDPOINT: str = "/api/v1/stock_transactions/"
+
+
+@dataclass(frozen=True)
 class StockTranConst:
 
     PAYLOAD_FOR_CREATE_STOCK_TRAN: tuple[dict] = (
@@ -32,3 +40,11 @@ class StockTranConst:
             "notes": "Покупка для дивидендного портфеля"
         },
     )
+
+
+class StockTranResponseConst:
+
+    SERVER_KEYS: set[str] = {"stock_tran_id"}
+    PAYLOAD_KEYS: set[str] = set(StockTranConst.PAYLOAD_FOR_CREATE_STOCK_TRAN[0].keys())
+
+    EXPECTED_STOCK_TRAN_KEYS = set(SERVER_KEYS | PAYLOAD_KEYS)
