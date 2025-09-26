@@ -20,6 +20,7 @@ class StockModel(Base):
     name: Mapped[str] = mapped_column(String(200))
     transactions: Mapped[list["StockTranModel"]] = relationship(
         back_populates="asset",
+        uselist=True,
         cascade="all, delete-orphan",
     )
     # foo: Mapped[int]
