@@ -16,10 +16,10 @@ class StockModel(Base):
     __tablename__ = "stocks"
 
     stock_id: Mapped[int] = mapped_column(primary_key=True)
-    symbol: Mapped[str] = mapped_column(String(5), unique=True)
-    name: Mapped[str] = mapped_column(String(50))
-    stock_transactions: Mapped[list["StockTranModel"]] = relationship(
-        back_populates="symbol",
+    symbol: Mapped[str] = mapped_column(String(20), unique=True)
+    name: Mapped[str] = mapped_column(String(200))
+    transactions: Mapped[list["StockTranModel"]] = relationship(
+        back_populates="asset",
         cascade="all, delete-orphan",
     )
     # foo: Mapped[int]
