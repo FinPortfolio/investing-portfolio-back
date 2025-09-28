@@ -44,7 +44,7 @@ class StockTranConst:
 
 class StockTranResponseConst:
 
-    SERVER_KEYS: set[str] = {"stock_tran_id"}
+    SERVER_KEYS: set[str] = {"transaction_id"}
     PAYLOAD_KEYS: set[str] = set(StockTranConst.PAYLOAD_FOR_CREATE_STOCK_TRAN[0].keys())
 
     EXPECTED_STOCK_TRAN_KEYS = set(SERVER_KEYS | PAYLOAD_KEYS)

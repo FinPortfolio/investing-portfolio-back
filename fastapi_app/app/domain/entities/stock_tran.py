@@ -25,7 +25,7 @@ class StockTranEntity:
     def __init__(
             self,
             asset_type: AssetType,
-            # symbol_id: str,  # Foreign Key for table "Stocks"
+            symbol_id: str,  # Foreign Key for table "Stocks"
             initial_price: float,
             # provider: dict,  # Nested object or not?
             transaction_commission: float,
@@ -34,10 +34,11 @@ class StockTranEntity:
             transaction_quantity: float,
             transaction_type: TransactionType,
             notes: str,
-            stock_tran_id: int | None = None,
+            transaction_id: int | None = None,
     ):
-        self.stock_tran_id = stock_tran_id
+        self.transaction_id = transaction_id
         self.asset_type = asset_type
+        self.symbol_id = symbol_id
         self.initial_price = initial_price
         self.transaction_commission = transaction_commission
         self.transaction_currency = transaction_currency

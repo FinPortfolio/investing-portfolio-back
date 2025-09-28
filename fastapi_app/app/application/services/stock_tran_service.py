@@ -20,9 +20,9 @@ class StockTranService:
         db_stock_tran_entity = await self.repo.create_stock_transaction(stock_tran)
         return db_stock_tran_entity
 
-    async def get_stock(self, stock_tran_id: int) -> StockTranEntity:
+    async def get_stock_tran(self, transaction_id: int) -> StockTranEntity:
         try:
-            db_stock_tran_entity = await self.repo.get_stock_tran_by_id(stock_tran_id)
+            db_stock_tran_entity = await self.repo.get_stock_tran_by_id(transaction_id)
         except EntityNotFoundError:
             raise StockTranNotFoundError()
         return db_stock_tran_entity
