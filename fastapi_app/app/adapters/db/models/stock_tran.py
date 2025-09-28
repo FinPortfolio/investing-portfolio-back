@@ -24,8 +24,9 @@ class StockTranModel(Base):
         ),
         nullable=False,
     )
-    symbol_id: Mapped[str] = mapped_column(ForeignKey("stocks.symbol"))
+    asset_id: Mapped[int] = mapped_column(ForeignKey("stocks.stock_id"))
     asset: Mapped["StockModel"] = relationship(back_populates="transactions", uselist=False)
+    provider: Mapped[str] = mapped_column(String(50), nullable=False)
     initial_price: Mapped[float] = mapped_column(nullable=False)
     transaction_commission: Mapped[float] = mapped_column(nullable=False)
     transaction_currency: Mapped[TransactionCurrency] = mapped_column(
@@ -52,7 +53,8 @@ class StockTranModel(Base):
         return StockTranEntity(
             transaction_id=self.transaction_id,
             asset_type=self.asset_type,
-            symbol_id=self.symbol_id,
+            asset_id=self.asset_id,
+            provider=self.provider,
             initial_price=self.initial_price,
             transaction_commission=self.transaction_commission,
             transaction_currency=self.transaction_currency,
