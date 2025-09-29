@@ -26,16 +26,9 @@ class StockTranService:
         except EntityNotFoundError:
             raise StockTranNotFoundError()
         return db_stock_tran_entity
-    #
-    # async def update_stock(self, stock_id: int, stock: dict) -> StockEntity:
-    #     try:
-    #         db_stock_entity = await self.repo.update_stock(stock_id, stock)
-    #     except EntityNotFoundError:
-    #         raise StockNotFoundError()
-    #     return db_stock_entity
-    #
-    # async def delete_stock(self, stock_id: int) -> None:
-    #     try:
-    #         await self.repo.delete_stock(stock_id)
-    #     except EntityNotFoundError:
-    #         raise StockNotFoundError()
+
+    async def delete_stock_tran(self, transaction_id: int) -> None:
+        try:
+            await self.repo.delete_stock_tran(transaction_id)
+        except EntityNotFoundError:
+            raise StockTranNotFoundError()

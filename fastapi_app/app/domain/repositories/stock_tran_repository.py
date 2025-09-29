@@ -14,3 +14,6 @@ class StockTranRepository(ABC):
 
     @abstractmethod
     async def get_stock_tran_by_id(self, transaction_id: int) -> StockTranEntity: ...
+
+    @abstractmethod
+    async def delete_stock_tran(self, transaction_id: int) -> None: ...
