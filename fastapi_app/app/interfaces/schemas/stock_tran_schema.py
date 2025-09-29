@@ -26,17 +26,6 @@ class StockTranPublic(StockTranBase):
 
     @classmethod
     def from_entity(cls, entity: StockTranEntity) -> StockTranPublic:
-        # import json
-        # from enum import Enum
-        # from datetime import date
-        # def default_converter(o):
-        #     if isinstance(o, date):
-        #         return o.isoformat()  # date → 'YYYY-MM-DD'
-        #     if isinstance(o, Enum):
-        #         return o.value  # Enum → его значение
-        #     return str(o)
-        # data = entity.__dict__
-        # print("DICT________________________:", json.dumps(data, indent=4, default=default_converter))
         return cls(
             transaction_id=entity.transaction_id,
             asset_type=entity.asset_type,
@@ -50,8 +39,6 @@ class StockTranPublic(StockTranBase):
             transaction_type=entity.transaction_type,
             notes=entity.notes,
         )
-        # data = entity.__dict__
-        # return cls(**data)
 
 
 class StockTranCreate(StockTranBase):
