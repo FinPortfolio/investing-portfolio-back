@@ -36,4 +36,7 @@ class SQLAStockTranRepository(StockTranRepository):
         db_stock_tran = await self._get_db_stock_tran_or_404(transaction_id)
         return db_stock_tran.to_entity()
 
-    # async def delete_stock_tran(self, transaction_id: int) -> None: ...
+    async def delete_stock_tran(self, transaction_id: int) -> None:
+        db_stock_tran = await self._get_db_stock_tran_or_404(transaction_id)
+        await self.session.delete(db_stock_tran)
+        await self.session.commit()
