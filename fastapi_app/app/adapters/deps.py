@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.adapters.db import pg_db_manager
 from app.adapters.db.repositories import (
-    SQLAlchemyStockRepository,
+    SQLAStockRepository,
     SQLAStockTranRepository,
 )
 from app.application.services import (
@@ -17,7 +17,7 @@ SessionDep = Annotated[AsyncSession, Depends(pg_db_manager.session_getter)]
 
 
 async def get_stock_service(session: SessionDep) -> StockService:
-    repo = SQLAlchemyStockRepository(session)
+    repo = SQLAStockRepository(session)
     return StockService(repo)
 
 
@@ -25,8 +25,9 @@ StockServiceDep = Annotated[StockService, Depends(get_stock_service)]
 
 
 async def get_stock_transaction_service(session: SessionDep) -> StockTranService:
-    repo = SQLAStockTranRepository(session)
-    return StockTranService(repo)
+    tran_repo = SQLAStockTranRepository(session)
+    stock_repo = SQLAStockRepository(session)
+    return StockTranService(tran_repo, stock_repo)
 
 
 StockTranServiceDep = Annotated[StockTranService, Depends(get_stock_transaction_service)]

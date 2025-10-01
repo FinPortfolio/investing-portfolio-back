@@ -10,7 +10,6 @@ from app.domain.entities import AssetType, StockTranEntity, TransactionCurrency,
 
 class StockTranBase(BaseModel):
     asset_type: AssetType
-    asset_id: int
     provider: str
     initial_price: float
     transaction_commission: float
@@ -23,6 +22,7 @@ class StockTranBase(BaseModel):
 
 class StockTranPublic(StockTranBase):
     transaction_id: int
+    asset_id: int
 
     @classmethod
     def from_entity(cls, entity: StockTranEntity) -> StockTranPublic:
@@ -42,4 +42,4 @@ class StockTranPublic(StockTranBase):
 
 
 class StockTranCreate(StockTranBase):
-    pass
+    asset_ticker: str

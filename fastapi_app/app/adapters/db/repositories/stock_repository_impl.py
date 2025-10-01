@@ -9,7 +9,7 @@ from app.domain.entities import StockEntity
 from app.domain.repositories import StockRepository
 
 
-class SQLAlchemyStockRepository(StockRepository):
+class SQLAStockRepository(StockRepository):
 
     def __init__(self, session: AsyncSession):
         self.session = session
@@ -19,6 +19,14 @@ class SQLAlchemyStockRepository(StockRepository):
         if db_stock is None:
             raise EntityNotFoundError()
         return db_stock
+
+    async def get_stock_by_ticker_or_404(self, ticker: str) -> StockEntity:
+        stmt = select(StockModel).where(StockModel.symbol == ticker)
+        result = await self.session.execute(stmt)
+        stock = result.scalar_one_or_none()
+        if stock is None:
+            raise EntityNotFoundError()
+        return stock.to_entity()
 
     async def get_list_of_stocks(self) -> list[StockEntity]:
         statement = select(StockModel).order_by(StockModel.stock_id)

@@ -2,7 +2,7 @@
 from fastapi import APIRouter, HTTPException, Response, status
 
 from app.adapters.deps import StockTranServiceDep
-from app.application.exceptions import StockTranNotFoundError
+from app.application.exceptions import StockNotFoundError, StockTranNotFoundError
 from app.interfaces.schemas import StockTranCreate, StockTranPublic
 from core.config import settings
 
@@ -24,7 +24,10 @@ async def create_stock_transaction(
     stock_tran: StockTranCreate,
     service: StockTranServiceDep
 ):
-    stock_tran_entity = await service.add_stock_tran(stock_tran.model_dump())
+    try:
+        stock_tran_entity = await service.add_stock_tran(stock_tran.model_dump())
+    except StockNotFoundError:
+        raise HTTPException(status_code=422, detail="Stock with this ticker not found")
     return StockTranPublic.from_entity(stock_tran_entity)
 
 
