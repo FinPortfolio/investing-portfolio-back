@@ -25,7 +25,7 @@ class SQLAStockRepository(StockRepository):
         result = await self.session.execute(stmt)
         stock = result.scalar_one_or_none()
         if stock is None:
-            raise StockNotFoundError(f"Stock with ticker {ticker} not found")
+            raise StockNotFoundError(f"Stock with ticker '{ticker}' not found")
         return stock.to_entity()
 
     async def get_list_of_stocks(self) -> list[StockEntity]:

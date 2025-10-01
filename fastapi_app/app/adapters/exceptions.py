@@ -7,8 +7,8 @@ class RepoError(Exception):
 
     def __init__(self, message=None):
         if message is None:
-            self.message = self.default_message
-        super().__init__(self.message)
+            message = self.default_message
+        super().__init__(message)
 
 
 class StockNotFoundError(RepoError):
