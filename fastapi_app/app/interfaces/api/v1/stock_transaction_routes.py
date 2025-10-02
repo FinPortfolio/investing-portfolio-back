@@ -49,9 +49,7 @@ async def delete_stock(
     service: StockTranServiceDep
 ):
     try:
-        await service.delete_stock_tran(
-            transaction_id=transaction_id,
-        )
+        await service.delete_stock_tran(transaction_id=transaction_id)
     except StockTranNotFoundError as exc:
         raise HTTPException(status_code=404, detail=str(exc))
     return Response(status_code=status.HTTP_204_NO_CONTENT)

@@ -25,7 +25,11 @@ class StockTranModel(Base):
         nullable=False,
     )
     asset_id: Mapped[int] = mapped_column(ForeignKey("stocks.stock_id"))
-    asset: Mapped["StockModel"] = relationship(back_populates="transactions", uselist=False)
+    asset: Mapped["StockModel"] = relationship(
+        back_populates="transactions",
+        uselist=False,
+        lazy="joined",
+    )
     provider: Mapped[str] = mapped_column(String(50), nullable=False)
     initial_price: Mapped[float] = mapped_column(nullable=False)
     transaction_commission: Mapped[float] = mapped_column(nullable=False)
@@ -54,6 +58,7 @@ class StockTranModel(Base):
             transaction_id=self.transaction_id,
             asset_type=self.asset_type,
             asset_id=self.asset_id,
+            asset=self.asset.to_entity(),
             provider=self.provider,
             initial_price=self.initial_price,
             transaction_commission=self.transaction_commission,
