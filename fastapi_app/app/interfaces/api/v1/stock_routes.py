@@ -1,7 +1,7 @@
 # app/interfaces/api/v1/stock_routes.py
 from fastapi import APIRouter, HTTPException, Response, status
 
-from app.application.exceptions import StockNotFoundError
+from app.adapters.exceptions import StockNotFoundError
 from app.interfaces.schemas import (
     StockCreate,
     StockPublic,
@@ -42,8 +42,8 @@ async def read_stock(
 ):
     try:
         stock_entity = await service.get_stock(stock_id)
-    except StockNotFoundError:
-        raise HTTPException(status_code=404, detail="Stock not found")
+    except StockNotFoundError as exc:
+        raise HTTPException(status_code=404, detail=str(exc))
     return StockPublic.from_entity(stock_entity)
 
 
@@ -58,8 +58,8 @@ async def full_update_stock(
             stock_id=stock_id,
             stock=stock.model_dump(),
         )
-    except StockNotFoundError:
-        raise HTTPException(status_code=404, detail="Stock not found")
+    except StockNotFoundError as exc:
+        raise HTTPException(status_code=404, detail=str(exc))
     return StockPublic.from_entity(stock_entity)
 
 
@@ -74,8 +74,8 @@ async def partial_update_stock(
             stock_id=stock_id,
             stock=stock.model_dump(exclude_unset=True),
         )
-    except StockNotFoundError:
-        raise HTTPException(status_code=404, detail="Stock not found")
+    except StockNotFoundError as exc:
+        raise HTTPException(status_code=404, detail=str(exc))
     return StockPublic.from_entity(stock_entity)
 
 
@@ -88,6 +88,6 @@ async def delete_stock(
         await service.delete_stock(
             stock_id=stock_id,
         )
-    except StockNotFoundError:
-        raise HTTPException(status_code=404, detail="Stock not found")
+    except StockNotFoundError as exc:
+        raise HTTPException(status_code=404, detail=str(exc))
     return Response(status_code=status.HTTP_204_NO_CONTENT)

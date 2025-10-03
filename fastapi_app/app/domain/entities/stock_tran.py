@@ -1,6 +1,7 @@
 from datetime import date
 from enum import StrEnum
 
+from app.domain.entities import StockEntity
 
 class AssetType(StrEnum):
     STOCK = "stock"
@@ -25,19 +26,23 @@ class StockTranEntity:
     def __init__(
             self,
             asset_type: AssetType,
-            # symbol_id: str,  # Foreign Key for table "Stocks"
+            asset_id: int,  # Foreign Key for table "Stocks"
+            asset: StockEntity,
+            provider: str,
             initial_price: float,
-            # provider: dict,  # Nested object or not?
             transaction_commission: float,
             transaction_currency: TransactionCurrency,
             transaction_date: date,
             transaction_quantity: float,
             transaction_type: TransactionType,
             notes: str,
-            stock_tran_id: int | None = None,
+            transaction_id: int | None = None,
     ):
-        self.stock_tran_id = stock_tran_id
+        self.transaction_id = transaction_id
         self.asset_type = asset_type
+        self.asset_id = asset_id
+        self.asset = asset
+        self.provider = provider
         self.initial_price = initial_price
         self.transaction_commission = transaction_commission
         self.transaction_currency = transaction_currency

@@ -2,54 +2,43 @@ import pytest
 
 from httpx import AsyncClient
 
+from fastapi import status
+from tests.constants import (
+    StockTranResponseConst,
+    StockTranConst,
+    UrlConstants
+)
+
+
 @pytest.mark.asyncio
-async def test_read_stock_transactions(client: AsyncClient):
-    stock_transactions_payloads = [
-        {
-            "asset_type": "stock",
-            "symbol_id": "TSLA",
-            "initial_price": 250.5,
-            "provider": {
-                "alphavantage": "https://www.alphavantage.co/query?symbol=TSLA"
-            },
-            "transaction_commision": 15.25,
-            "transaction_currency": "USD",
-            "transaction_date": "2025-09-15",
-            "transaction_quantity": 165.4,
-            "transaction_type": "sell",
-            "notes": "Продажа после достижения целевой цены"
-        },
-        {
-            "asset_type": "stock",
-            "symbol_id": "IBM",
-            "initial_price": 145.3,
-            "provider": {
-                "alphavantage": "https://www.alphavantage.co/query?symbol=IBM"
-            },
-            "transaction_commision": 7.5,
-            "transaction_currency": "USD",
-            "transaction_date": "2025-09-12",
-            "transaction_quantity": 80,
-            "transaction_type": "buy",
-            "notes": "Покупка для дивидендного портфеля"
-        }
-    ]
-
-    for payload in stock_transactions_payloads:
-        response = await client.post("/api/v1/stock-transactions/", json=payload)
-        assert response.status_code == 201
-
-    response = await client.get("/api/v1/stock-transactions/")
+async def test_get_stock_transactions(client: AsyncClient):
+    response = await client.get(UrlConstants.STOCK_TRANS_ENDPOINT)
     assert response.status_code == 200
 
     data = response.json()
-    print("data: ", data)
     assert isinstance(data, list)
-    assert len(data) == len(stock_transactions_payloads)
 
-    # names = [item["name"] for item in data]
-    # symbols = [item["symbol"] for item in data]
-    #
-    # for payload in stock_transactions_payloads:
-    #     assert payload["name"] in names
-    #     assert payload["symbol"] in symbols
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "payload",
+    StockTranConst.PAYLOAD_FOR_CREATE_STOCK_TRAN,
+)
+async def test_create_stock_transaction(client: AsyncClient, payload: dict):
+    response = await client.post(UrlConstants.STOCK_TRANS_ENDPOINT, json=payload)
+    assert response.status_code == status.HTTP_201_CREATED, (
+        f"Expected status 201 Created {response.status_code}, "
+        f" received: {response.text}"
+    )
+
+    data = response.json()
+    assert set(data.keys()) == StockTranResponseConst.EXPECTED_STOCK_TRAN_KEYS, (
+        f"Expected response keys {StockTranResponseConst.EXPECTED_STOCK_TRAN_KEYS}, "
+        f"received response keys {set(data.keys())}"
+    )
+
+    for field, expected_value in payload.items():
+        assert data[field] == expected_value, (
+            f"Expected response field value '{field}': '{expected_value}', "
+            f"received response field value: '{data[field]}'"
+        )
