@@ -2,7 +2,7 @@
 from fastapi import APIRouter, HTTPException, Response, status
 
 from app.adapters.deps import StockTranServiceDep
-from app.application.exceptions import StockTranNotFoundError
+from app.adapters.exceptions import StockNotFoundError, StockTranNotFoundError
 from app.interfaces.schemas import StockTranCreate, StockTranPublic
 from core.config import settings
 
@@ -24,7 +24,10 @@ async def create_stock_transaction(
     stock_tran: StockTranCreate,
     service: StockTranServiceDep
 ):
-    stock_tran_entity = await service.add_stock_tran(stock_tran.model_dump())
+    try:
+        stock_tran_entity = await service.add_stock_tran(stock_tran.model_dump())
+    except StockNotFoundError as exc:
+        raise HTTPException(status_code=422, detail=str(exc))
     return StockTranPublic.from_entity(stock_tran_entity)
 
 
@@ -35,8 +38,8 @@ async def read_stock(
 ):
     try:
         stock_tran_entity = await service.get_stock_tran(transaction_id)
-    except StockTranNotFoundError:
-        raise HTTPException(status_code=404, detail="Stock Transaction not found")
+    except StockTranNotFoundError as exc:
+        raise HTTPException(status_code=404, detail=str(exc))
     return StockTranPublic.from_entity(stock_tran_entity)
 
 
@@ -46,9 +49,7 @@ async def delete_stock(
     service: StockTranServiceDep
 ):
     try:
-        await service.delete_stock_tran(
-            transaction_id=transaction_id,
-        )
-    except StockTranNotFoundError:
-        raise HTTPException(status_code=404, detail="Stock Transaction not found")
+        await service.delete_stock_tran(transaction_id=transaction_id)
+    except StockTranNotFoundError as exc:
+        raise HTTPException(status_code=404, detail=str(exc))
     return Response(status_code=status.HTTP_204_NO_CONTENT)

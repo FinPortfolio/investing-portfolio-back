@@ -1,5 +1,4 @@
 # app/application/services/stock_service.py
-from app.application.exceptions import EntityNotFoundError, StockNotFoundError
 from app.domain.entities import StockEntity
 from app.domain.repositories import StockRepository
 
@@ -18,21 +17,12 @@ class StockService:
         return db_stock_entity
 
     async def get_stock(self, stock_id: int) -> StockEntity:
-        try:
-            db_stock_entity = await self.repo.get_stock_by_id(stock_id)
-        except EntityNotFoundError:
-            raise StockNotFoundError()
+        db_stock_entity = await self.repo.get_stock_by_id(stock_id)
         return db_stock_entity
 
     async def update_stock(self, stock_id: int, stock: dict) -> StockEntity:
-        try:
-            db_stock_entity = await self.repo.update_stock(stock_id, stock)
-        except EntityNotFoundError:
-            raise StockNotFoundError()
+        db_stock_entity = await self.repo.update_stock(stock_id, stock)
         return db_stock_entity
 
     async def delete_stock(self, stock_id: int) -> None:
-        try:
-            await self.repo.delete_stock(stock_id)
-        except EntityNotFoundError:
-            raise StockNotFoundError()
+        await self.repo.delete_stock(stock_id)
