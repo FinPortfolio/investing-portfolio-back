@@ -30,6 +30,7 @@ class SQLAStockTranRepository(StockTranRepository):
         db_stock_tran = StockTranModel(**stock_tran)
         self.session.add(db_stock_tran)
         await self.session.commit()
+        await self.session.refresh(db_stock_tran, attribute_names=["asset"])
         return db_stock_tran.to_entity()
 
     async def get_stock_tran_by_id(self, transaction_id: int) -> StockTranEntity:
