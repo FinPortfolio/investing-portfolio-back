@@ -1,7 +1,7 @@
 # Investing Portfolio Backend
 
 
-## Оглавление
+## Table of contents
 
 1. [📌 About the project](#about)
    - [🎯 Goals of the project](#goals)
