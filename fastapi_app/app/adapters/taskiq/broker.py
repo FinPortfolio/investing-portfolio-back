@@ -1,0 +1,12 @@
+# app/adapters/taskiq/broker.py
+__all__ = (
+    "broker",
+)
+
+from taskiq_aio_pika import AioPikaBroker
+
+from core.config import settings
+
+broker = AioPikaBroker(
+    url=settings.taskiq.url,
+)
