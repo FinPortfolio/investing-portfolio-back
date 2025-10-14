@@ -30,7 +30,7 @@ Stack and tools:
 - 🛠️ Python 3.12.
 - 🛠️ 
 - 🛠️ 
-- 🛠️ 
+- 🛠️ Taskiq + TaskiqAioPika
 
 ## 🚀 Getting Started <a name="start"></a> 
 
@@ -93,4 +93,4 @@ Testing:
 
 Links:
 - https://docs.sqlalchemy.org/en/20/core/engines.html#sqlalchemy.create_engine
-- 
+- https://taskiq-python.github.io/
