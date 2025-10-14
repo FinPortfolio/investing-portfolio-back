@@ -3,7 +3,7 @@ from typing import Literal
 
 from pathlib import Path
 
-from pydantic import BaseModel, PostgresDsn
+from pydantic import AmqpDsn, BaseModel, PostgresDsn
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 LOG_DEFAULT_FORMAT = "[%(asctime)s.%(msecs)03d] %(module)10s:%(lineno)-3d %(levelname)-7s - %(message)s"
@@ -53,6 +53,10 @@ class ApiPrefix(BaseModel):
     v1: ApiV1Prefix = ApiV1Prefix()
 
 
+class TaskiqConfig(BaseModel):
+    url: AmqpDsn = "amqp://guest:guest@rabbitmq:5672//"
+
+
 class DatabaseConfig(BaseModel):
     url: PostgresDsn
     echo: bool = False
@@ -81,6 +85,7 @@ class Settings(BaseSettings):
     gunicorn: GunicornConfig = GunicornConfig()
     logging: LoggingConfig = LoggingConfig()
     api: ApiPrefix = ApiPrefix()
+    taskiq: TaskiqConfig = TaskiqConfig()
     db: DatabaseConfig
 
 

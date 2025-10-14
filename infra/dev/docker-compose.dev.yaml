@@ -1,5 +1,6 @@
 volumes:
   pg_data:
+  rabbitmq_data:
 
 networks:
   portfolio_dev:
@@ -13,6 +14,7 @@ services:
       POSTGRES_DB: portfolio
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
+      PGDATA: /var/lib/postgresql/data
     volumes:
       - pg_data:/var/lib/postgresql/data
     ports:
@@ -39,6 +41,26 @@ services:
     networks:
       - portfolio_dev
 
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    hostname: rabbitmq
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: "guest"
+      RABBITMQ_DEFAULT_PASS: "guest"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: [ "CMD", "rabbitmqctl", "status" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - portfolio_dev
+
   backend:
     build:
       dockerfile: infra/Dockerfile
@@ -51,6 +73,8 @@ services:
       - "8000:8000"
     depends_on:
       pg:
+        condition: service_healthy
+      rabbitmq:
         condition: service_healthy
 #    develop:
 #      watch:
