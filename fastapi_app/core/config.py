@@ -1,4 +1,5 @@
 # core/config.py
+import logging
 from typing import Literal
 
 from pathlib import Path
@@ -41,6 +42,9 @@ class LoggingConfig(BaseModel):
     ] = "info"
     log_format: str = LOG_DEFAULT_FORMAT
 
+    @property
+    def log_level_value(self) -> int:
+        return logging.getLevelNamesMapping()[self.log_level.upper()]
 
 class ApiV1Prefix(BaseModel):
     prefix: str = "/v1"

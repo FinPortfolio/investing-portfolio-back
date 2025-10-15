@@ -32,6 +32,11 @@ Stack and tools:
 - 🛠️ 
 - 🛠️ Taskiq + TaskiqAioPika
 
+to run taskiq boker type:
+```
+taskiq worker app.adapters.taskiq.broker:broker --fs-discover --tasks-pattern "**/tasks"
+```
+
 ## 🚀 Getting Started <a name="start"></a> 
 
 ### 📦 Poetry <a name="poetry"></a> 
