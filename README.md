@@ -34,7 +34,7 @@ Stack and tools:
 
 to run taskiq boker type:
 ```
-taskiq worker app.adapters.taskiq.broker:broker --fs-discover --tasks-pattern "**/tasks"
+taskiq worker app.adapters.taskiq.broker:broker --worker 1 --no-configure-logging --fs-discover --tasks-pattern "**/tasks"
 ```
 
 ## 🚀 Getting Started <a name="start"></a> 
