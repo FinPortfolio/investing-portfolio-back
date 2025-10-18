@@ -13,11 +13,13 @@ from app.adapters.db import pg_db_manager
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # startup
-    await broker.startup()
+    if not broker.is_worker_process:
+        await broker.startup()
     yield
     # shutdown
     await pg_db_manager.dispose()
-    await broker.shutdown()
+    if not broker.is_worker_process:
+        await broker.shutdown()
 
 
 main_app = FastAPI(
