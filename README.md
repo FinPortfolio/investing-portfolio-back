@@ -30,7 +30,16 @@ Stack and tools:
 - 🛠️ Python 3.12.
 - 🛠️ 
 - 🛠️ 
-- 🛠️ 
+- 🛠️ Taskiq + TaskiqAioPika
+
+to run taskiq broker enter the backend container terminal:
+```
+docker exec -it dev-backend-1 bash
+```
+and start the worker(-s) with the command:
+```
+taskiq worker app.adapters.taskiq.broker:broker --worker 1 --no-configure-logging --fs-discover --tasks-pattern "**/tasks"
+```
 
 ## 🚀 Getting Started <a name="start"></a> 
 
@@ -93,4 +102,4 @@ Testing:
 
 Links:
 - https://docs.sqlalchemy.org/en/20/core/engines.html#sqlalchemy.create_engine
-- 
+- https://taskiq-python.github.io/
