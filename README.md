@@ -32,7 +32,11 @@ Stack and tools:
 - 🛠️ 
 - 🛠️ Taskiq + TaskiqAioPika
 
-to run taskiq boker type:
+to run taskiq broker enter the backend container terminal:
+```
+docker exec -it dev-backend-1 bash
+```
+and start the worker(-s) with the command:
 ```
 taskiq worker app.adapters.taskiq.broker:broker --worker 1 --no-configure-logging --fs-discover --tasks-pattern "**/tasks"
 ```
