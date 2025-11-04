@@ -27,6 +27,6 @@ logger = logging.getLogger(__name__)
 
 @broker.task
 async def taskiq_send_welcome_email():
-    logger.info("Start sending welcome email")
+    logger.info("____________Start sending welcome email")
     await send_welcome_email()
-    logger.info("Finish sending welcome email")
+    logger.info("____________Finish sending welcome email")

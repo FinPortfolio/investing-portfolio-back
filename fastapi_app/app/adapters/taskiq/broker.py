@@ -24,4 +24,4 @@ async def on_event_startup(state: TaskiqState) -> None:
         format=settings.taskiq.log_format,
         datefmt=settings.logging.log_date_format,
     )
-    logger.info("broker startup complete, got state: %s", state)
+    logger.info("____________broker startup complete, got state: %s", state)
