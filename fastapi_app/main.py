@@ -5,15 +5,21 @@ from fastapi import FastAPI
 
 from app.interfaces.api.v1 import router_v1
 from core.config import settings
+from app.adapters.taskiq import broker
+from app.adapters.taskiq.tasks import taskiq_send_welcome_email
 from app.adapters.db import pg_db_manager
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # startup
+    if not broker.is_worker_process:
+        await broker.startup()
     yield
     # shutdown
     await pg_db_manager.dispose()
+    if not broker.is_worker_process:
+        await broker.shutdown()
 
 
 main_app = FastAPI(
@@ -29,6 +35,7 @@ main_app.include_router(
 
 @main_app.get("/")
 async def read_stocks():
+    await taskiq_send_welcome_email.kiq()
     return {"message": "Everything is OK!!!"}
 
 

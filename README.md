@@ -1,5 +1,62 @@
 # Investing Portfolio Backend
 
+
+## Table of contents
+
+1. [📌 About the project](#about)
+   - [🎯 Goals of the project](#goals)
+   - [🛠️ Stack and tools](#stack-and-tools)
+2. [🚀 Getting Started](#start)
+   - [📦 Poetry](#poetry)
+   - [🔄 Pre-commit](#pre-commit)
+   - [🪟 Installation on Windows](#installation-on-Windows)
+
+## 📌 About the project <a name="about"></a> 
+
+**Investing Portfolio Backend** — The backend part of the "Investment Portfolio" is an application for displaying the investment portfolio of clients, which allows:
+- 📊 
+- 🔍 
+- 💡 
+- 📈 
+### 🎯 Goals of the project <a name="goals"></a> 
+Goals:
+- 📊 
+- 🔍 
+- 💡 
+- 📈
+  
+### 🛠️ Stack and tools <a name="stack-and-tools"></a> 
+Stack and tools:
+- 🛠️ Python 3.12.
+- 🛠️ 
+- 🛠️ 
+- 🛠️ Taskiq + TaskiqAioPika
+
+to run taskiq broker enter the backend container terminal:
+```
+docker exec -it dev-backend-1 bash
+```
+and start the worker(-s) with the command:
+```
+taskiq worker app.adapters.taskiq.broker:broker --worker 1 --no-configure-logging --fs-discover --tasks-pattern "**/tasks"
+```
+
+## 🚀 Getting Started <a name="start"></a> 
+
+### 📦 Poetry <a name="poetry"></a> 
+
+Poetry is a tool for managing Python dependencies and virtual environments. It is a **required** tool for the Poetry project.
+
+<details>
+<summary><strong>🔽 Installing Poetry</strong></summary>
+
+#### Installing Poetry
+
+Follow the [official instructions](https://python-poetry.org/docs/#installation) or use one of the following methods:
+
+</details>
+
+
 Create .env.deploy and .env.app files in the sources root
 
 
@@ -45,4 +102,4 @@ Testing:
 
 Links:
 - https://docs.sqlalchemy.org/en/20/core/engines.html#sqlalchemy.create_engine
-- 
+- https://taskiq-python.github.io/
