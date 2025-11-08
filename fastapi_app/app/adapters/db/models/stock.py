@@ -17,24 +17,24 @@ class StockModel(Base):
 
     stock_id: Mapped[int] = mapped_column(primary_key=True)
     symbol: Mapped[str] = mapped_column(String(20), unique=True)
-    name: Mapped[str] = mapped_column(String(200))
+    provider: Mapped[str] = mapped_column(String(50))
+    name: Mapped[str] = mapped_column(String(200), nullable=True)
     transactions: Mapped[list["StockTranModel"]] = relationship(
         back_populates="asset",
         uselist=True,
         cascade="all, delete-orphan",
     )
-    # foo: Mapped[int]
-    # bar: Mapped[int]
-    #
-    # __table_args__ = (
-    #     UniqueConstraint(
-    #         "foo", "bar",
-    #     ),
-    # )
+
+    __table_args__ = (
+        UniqueConstraint(
+            "symbol", "provider", name="uq_symbol_provider"
+        ),
+    )
 
     def to_entity(self) -> StockEntity:
         return StockEntity(
             stock_id=self.stock_id,
             symbol=self.symbol,
-            name=self.name
+            provider=self.provider,
+            name=self.name,
         )
