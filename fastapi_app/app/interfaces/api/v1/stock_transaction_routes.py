@@ -3,7 +3,6 @@ from fastapi import APIRouter, HTTPException, Response, status
 
 from app.adapters.deps import StockTranServiceDep
 from app.adapters.exceptions import StockNotFoundError, StockTranNotFoundError
-from app.adapters.taskiq.tasks import fetch_stock_info_task
 from app.interfaces.schemas import StockTranCreate, StockTranPublic
 from core.config import settings
 
@@ -27,11 +26,6 @@ async def create_stock_transaction(
 ):
     try:
         stock_tran_entity = await service.add_stock_tran(stock_tran.model_dump())
-        await fetch_stock_info_task.kiq(
-            registry_id=1,
-            provider=stock_tran.provider,
-            ticker=stock_tran.asset_ticker,
-        )
     except StockNotFoundError as exc:
         raise HTTPException(status_code=422, detail=str(exc))
     return StockTranPublic.from_entity(stock_tran_entity)

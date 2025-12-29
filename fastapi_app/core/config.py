@@ -1,15 +1,12 @@
 # core/config.py
-import logging
 from typing import Literal
 
 from pathlib import Path
 
-from pydantic import AmqpDsn, BaseModel, PostgresDsn
+from pydantic import BaseModel, PostgresDsn
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 LOG_DEFAULT_FORMAT = "[%(asctime)s.%(msecs)03d] %(module)10s:%(lineno)-3d %(levelname)-7s - %(message)s"
-LOG_DEFAULT_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
-WORKER_LOG_DEFAULT_FORMAT = "[%(asctime)s.%(msecs)03d][%(processName)s] %(module)16s:%(lineno)-3d %(levelname)-7s - %(message)s"
 
 BASE_DIR = Path(__file__).parent.parent
 
@@ -43,11 +40,7 @@ class LoggingConfig(BaseModel):
         "critical",
     ] = "info"
     log_format: str = LOG_DEFAULT_FORMAT
-    log_date_format: str = LOG_DEFAULT_DATE_FORMAT
 
-    @property
-    def log_level_value(self) -> int:
-        return logging.getLevelNamesMapping()[self.log_level.upper()]
 
 class ApiV1Prefix(BaseModel):
     prefix: str = "/v1"
@@ -58,11 +51,6 @@ class ApiV1Prefix(BaseModel):
 class ApiPrefix(BaseModel):
     prefix: str = "/api"
     v1: ApiV1Prefix = ApiV1Prefix()
-
-
-class TaskiqConfig(BaseModel):
-    url: AmqpDsn = "amqp://guest:guest@rabbitmq:5672//"
-    log_format: str = WORKER_LOG_DEFAULT_FORMAT
 
 
 class DatabaseConfig(BaseModel):
@@ -93,8 +81,7 @@ class Settings(BaseSettings):
     gunicorn: GunicornConfig = GunicornConfig()
     logging: LoggingConfig = LoggingConfig()
     api: ApiPrefix = ApiPrefix()
-    taskiq: TaskiqConfig = TaskiqConfig()
     db: DatabaseConfig
 
 
-settings = Settings()  # type: ignore
+settings = Settings()
