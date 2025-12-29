@@ -2,8 +2,9 @@ from contextlib import asynccontextmanager
 
 import uvicorn
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
-from app.interfaces.api.v1 import router as router_v1
+from app.interfaces.api.v1 import router_v1
 from core.config import settings
 from app.adapters.db import pg_db_manager
 
@@ -19,6 +20,23 @@ async def lifespan(app: FastAPI):
 main_app = FastAPI(
     lifespan=lifespan,
     title="Investing Portfolio API",
+)
+
+ORIGINS = [
+    "http://investing-portfolio.pl",
+    "https://investing-portfolio.pl",
+    "http://localhost",
+    "https://localhost",
+    "http://localhost:3000",
+    "https://localhost:3000",
+]
+
+main_app.add_middleware(
+    CORSMiddleware,
+    allow_origins=ORIGINS,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 main_app.include_router(

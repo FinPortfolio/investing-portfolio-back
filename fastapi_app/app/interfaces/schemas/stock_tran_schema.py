@@ -1,0 +1,45 @@
+# app.interfaces.schemas.stock_tran_schema.py
+from __future__ import annotations
+
+from datetime import date
+
+from pydantic import BaseModel
+
+from app.domain.entities import AssetType, StockTranEntity, TransactionCurrency, TransactionType
+
+
+class StockTranBase(BaseModel):
+    asset_type: AssetType
+    provider: str
+    initial_price: float
+    transaction_commission: float
+    transaction_currency: TransactionCurrency
+    transaction_date: date
+    transaction_quantity: float
+    transaction_type: TransactionType
+    notes: str
+
+
+class StockTranPublic(StockTranBase):
+    transaction_id: int
+    asset_ticker: str
+
+    @classmethod
+    def from_entity(cls, entity: StockTranEntity) -> StockTranPublic:
+        return cls(
+            transaction_id=entity.transaction_id,
+            asset_type=entity.asset_type,
+            asset_ticker=entity.asset.symbol,
+            provider=entity.provider,
+            initial_price=entity.initial_price,
+            transaction_commission=entity.transaction_commission,
+            transaction_currency=entity.transaction_currency,
+            transaction_date=entity.transaction_date,
+            transaction_quantity=entity.transaction_quantity,
+            transaction_type=entity.transaction_type,
+            notes=entity.notes,
+        )
+
+
+class StockTranCreate(StockTranBase):
+    asset_ticker: str
