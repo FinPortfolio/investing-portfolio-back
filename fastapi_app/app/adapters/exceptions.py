@@ -16,11 +16,6 @@ class StockNotFoundError(RepoError):
     default_message = "Stock not found"
 
 
-class StockAlreadyExistsError(RepoError):
-
-    default_message = "Stock already exists"
-
-
 class StockTranNotFoundError(RepoError):
 
     default_message = "Stock Transaction not found"

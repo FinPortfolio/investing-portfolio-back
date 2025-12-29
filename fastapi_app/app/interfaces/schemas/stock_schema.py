@@ -8,7 +8,6 @@ from app.domain.entities import StockEntity
 
 class StockBase(BaseModel):
     symbol: str
-    provider: str
     name: str
 
 
@@ -18,20 +17,24 @@ class Stock(StockBase):
 
 class StockPublic(StockBase):
     stock_id: int
-    name: str | None
 
     @classmethod
     def from_entity(cls, entity: StockEntity) -> StockPublic:
         return cls(
             stock_id=entity.stock_id,
             symbol=entity.symbol,
-            provider=entity.provider,
             name=entity.name,
         )
 
 
 class StockCreate(StockBase):
     pass
+
+    # def to_entity(self) -> StockEntity:
+    #     return StockEntity(
+    #         symbol=self.symbol,
+    #         name=self.name,
+    #     )
 
 
 class StockFullUpdate(StockCreate):
@@ -40,5 +43,4 @@ class StockFullUpdate(StockCreate):
 
 class StockPartialUpdate(StockBase):
     symbol: str | None = None
-    provider: str | None = None
     name: str | None = None

@@ -13,10 +13,8 @@ class StockTranService:
         return list_of_stocks
 
     async def add_stock_tran(self, stock_tran_data: dict) -> StockTranEntity:
-        symbol = stock_tran_data.pop("asset_ticker")
-        # provider = stock_tran_data.pop("provider")
-        provider = stock_tran_data.get("provider")
-        db_stock_entity = await self.stock_repo.get_or_create_stock(symbol, provider)
+        ticker = stock_tran_data.pop("asset_ticker")
+        db_stock_entity = await self.stock_repo.get_stock_by_ticker_or_500(ticker)
         stock_tran_data["asset_id"] = db_stock_entity.stock_id
         return await self.tran_repo.create_stock_transaction(stock_tran_data)
 

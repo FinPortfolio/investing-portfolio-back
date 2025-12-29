@@ -20,9 +20,6 @@ class StockRepository(ABC):
     async def get_stock_by_ticker_or_500(self, ticker: str) -> StockEntity: ...
 
     @abstractmethod
-    async def get_or_create_stock(self, symbol: str, provider: str) -> StockEntity: ...
-
-    @abstractmethod
     async def update_stock(self, stock_id: int, stock: dict) -> StockEntity: ...
 
     @abstractmethod

@@ -1,11 +1,10 @@
 # app/adapters/db/stock_repository_impl.py
 from sqlalchemy import select
 from sqlalchemy.engine import Result
-from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.adapters.db.models import StockModel
-from app.adapters.exceptions import StockAlreadyExistsError, StockNotFoundError
+from app.adapters.exceptions import StockNotFoundError
 from app.domain.entities import StockEntity
 from app.domain.repositories import StockRepository
 
@@ -28,37 +27,6 @@ class SQLAStockRepository(StockRepository):
         if stock is None:
             raise StockNotFoundError(f"Stock with ticker '{ticker}' not found")
         return stock.to_entity()
-
-    async def get_or_create_stock(self, symbol: str, provider: str) -> StockEntity:
-    # async def get_or_create_stock(self, ticker: str) -> StockEntity:
-        async def _get_stock():
-            stmt = select(StockModel).where(
-                StockModel.symbol == symbol,
-                StockModel.provider == provider,
-            )
-            result = await self.session.execute(stmt)
-            return result.scalar_one_or_none()
-
-        stock = await _get_stock()
-        if stock:
-            return stock.to_entity()
-
-        new_stock = StockModel(symbol=symbol, provider=provider)
-        # new_stock = StockModel(symbol=symbol)
-        self.session.add(new_stock)
-
-        try:
-            await self.session.commit()
-        except IntegrityError:
-            # if someone added the same one at the same time
-            await self.session.rollback()
-            stock = await _get_stock()
-            if not stock:
-                raise StockAlreadyExistsError
-            return stock.to_entity()
-
-        await self.session.refresh(new_stock)
-        return new_stock.to_entity()
 
     async def get_list_of_stocks(self) -> list[StockEntity]:
         statement = select(StockModel).order_by(StockModel.stock_id)
